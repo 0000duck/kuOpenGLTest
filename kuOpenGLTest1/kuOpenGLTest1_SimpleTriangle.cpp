@@ -11,7 +11,9 @@ using namespace std;
 
 int  main()
 {
-	float	TriangleVertexs[9] =   {0.0, 0.5, 0.0, 0.5, -0.5, 0.0, -0.5, -0.5, 0.0};
+	GLfloat	TriangleVertexs[9] =   {0.0, 0.5, 0.0, 
+									0.5, -0.5, 0.0, 
+									-0.5, -0.5, 0.0};
 
 	if (!glfwInit())
 	{
@@ -46,8 +48,8 @@ int  main()
 	cout << "OpenGL version supported " << version << endl;
 
 	GLuint VertexBuffer = 0;  // Vertex Buffer Object (VBO)
-	glGenBuffers(1, &VertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+	glGenBuffers(1, &VertexBuffer); // give an ID to vertex buffer
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer); // Bind buffer as array buffer
 	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), TriangleVertexs, GL_STATIC_DRAW);
 	
 	while (!glfwWindowShouldClose(window))
@@ -58,7 +60,7 @@ int  main()
 			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
 			3,                  // size
 			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
+			GL_TRUE,           // normalized?
 			0,                  // stride
 			(void*)0            // array buffer offset
 		);

@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kuOpenGLTest1", "kuOpenGLTest1\kuOpenGLTest1.vcxproj", "{C2852382-C6C3-4770-A89A-11C372ACEA9D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kuOpenGLTest1_SimpleTriangle", "kuOpenGLTest1\kuOpenGLTest1.vcxproj", "{C2852382-C6C3-4770-A89A-11C372ACEA9D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kuOpenGLTest2_ColorRectangle", "kuOpenGLTest2_ColorRectangle\kuOpenGLTest2_ColorRectangle.vcxproj", "{4391B045-300B-439E-BB5B-BE8EA49B7AE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{C2852382-C6C3-4770-A89A-11C372ACEA9D}.Release|x64.Build.0 = Release|x64
 		{C2852382-C6C3-4770-A89A-11C372ACEA9D}.Release|x86.ActiveCfg = Release|Win32
 		{C2852382-C6C3-4770-A89A-11C372ACEA9D}.Release|x86.Build.0 = Release|Win32
+		{4391B045-300B-439E-BB5B-BE8EA49B7AE0}.Debug|x64.ActiveCfg = Debug|x64
+		{4391B045-300B-439E-BB5B-BE8EA49B7AE0}.Debug|x64.Build.0 = Debug|x64
+		{4391B045-300B-439E-BB5B-BE8EA49B7AE0}.Debug|x86.ActiveCfg = Debug|Win32
+		{4391B045-300B-439E-BB5B-BE8EA49B7AE0}.Debug|x86.Build.0 = Debug|Win32
+		{4391B045-300B-439E-BB5B-BE8EA49B7AE0}.Release|x64.ActiveCfg = Release|x64
+		{4391B045-300B-439E-BB5B-BE8EA49B7AE0}.Release|x64.Build.0 = Release|x64
+		{4391B045-300B-439E-BB5B-BE8EA49B7AE0}.Release|x86.ActiveCfg = Release|Win32
+		{4391B045-300B-439E-BB5B-BE8EA49B7AE0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
