@@ -11,8 +11,8 @@ using namespace std;
 
 int  main()
 {
-	GLfloat	TriangleVertexs[9] =   {0.0, 0.5, 0.0, 
-									0.5, -0.5, 0.0, 
+	GLfloat	TriangleVertexs[9] =   { 0.0,  0.5, 0.0, 
+									 0.5, -0.5, 0.0, 
 									-0.5, -0.5, 0.0};
 
 	if (!glfwInit())
