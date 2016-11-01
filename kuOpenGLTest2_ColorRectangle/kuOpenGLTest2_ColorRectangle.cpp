@@ -1,6 +1,6 @@
 #pragma once
-#include <GL/glew.h>
-#include <GL/glfw3.h>
+#include <GLEW/glew.h>
+#include <GLFW/glfw3.h>
 #include <iostream>
 
 #pragma comment(lib, "glfw3.lib")
@@ -89,7 +89,8 @@ void main()
 	GLint colorAttrib = glGetAttribLocation(ShaderProgram, "color");
 	glEnableVertexAttribArray(colorAttrib);
 	glVertexAttribPointer(colorAttrib, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-
+	
+	glBindVertexArray(0);
 
 	while (!glfwWindowShouldClose(GLWnd))
 	{

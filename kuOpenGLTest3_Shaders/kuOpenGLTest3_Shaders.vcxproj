@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4391B045-300B-439E-BB5B-BE8EA49B7AE0}</ProjectGuid>
-    <RootNamespace>kuOpenGLTest2_ColorRectangle</RootNamespace>
+    <ProjectGuid>{25B832BC-574D-4774-97DC-621E0B1FEF7E}</ProjectGuid>
+    <RootNamespace>kuOpenGLTest3_Shaders</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -113,7 +113,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="kuOpenGLTest2_ColorRectangle.cpp" />
+    <ClCompile Include="kuOpenGLTest3_Shaders.cpp" />
+    <ClCompile Include="kuShaderHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="kuShaderHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FragmentShader.frag" />
+    <None Include="VertexShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

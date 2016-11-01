@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "kuShaderHandler.h"
+
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -11,9 +13,9 @@ using namespace std;
 
 int  main()
 {
-	GLfloat	TriangleVertexs[9] =   { 0.0,  0.5, 0.0, 
-									 0.5, -0.5, 0.0, 
-									-0.5, -0.5, 0.0};
+	GLfloat	TriangleVertexs[9] = {  0.0,  0.5, 0.0,
+									0.5, -0.5, 0.0,
+								   -0.5, -0.5, 0.0 };
 
 	if (!glfwInit())
 	{
@@ -40,38 +42,52 @@ int  main()
 	}
 
 	// get version info
-	const GLubyte* renderer = glGetString(GL_RENDERER); 
+	const GLubyte* renderer = glGetString(GL_RENDERER);
 	// get renderer string (graphic card)
-	const GLubyte* version = glGetString(GL_VERSION); 
+	const GLubyte* version = glGetString(GL_VERSION);
 	// version as a string (OpenGL supported version and graphic card driver version)
 	cout << "Renderer: " << renderer << endl;
 	cout << "OpenGL version supported " << version << endl;
 
-	GLuint VertexBuffer = 0;  // Vertex Buffer Object (VBO)
-	glGenBuffers(1, &VertexBuffer); // give an ID to vertex buffer
+	kuShaderHandler ShaderHnadler;
+	ShaderHnadler.Load("VertexShader.vert", "FragmentShader.frag");
+	ShaderHnadler.Use();
+
+	GLuint VertexArray = 0;
+	glGenVertexArrays(1, &VertexArray);
+	GLuint VertexBuffer = 0;				// Vertex Buffer Object (VBO)
+	glGenBuffers(1, &VertexBuffer);			// give an ID to vertex buffer
+
+	glBindVertexArray(VertexArray);
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer); // Bind buffer as array buffer
 	glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), TriangleVertexs, GL_STATIC_DRAW);
-	
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
 	while (!glfwWindowShouldClose(window))
 	{
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
-		glVertexAttribPointer(
-			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_TRUE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
+		// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
+		glfwPollEvents();
+
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		GLfloat timeValue = glfwGetTime();
+		GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
+		GLint	vertexColorLocation = glGetUniformLocation(ShaderHnadler.ShaderProgramID, "ourColor");
+		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+		glBindVertexArray(VertexArray);
 		glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
-		glDisableVertexAttribArray(0);
+		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
-		glfwPollEvents();	// This function processes only those events that are already 
-							// in the event queue and then returns immediately
 	}
-	
+
 	system("pause");
 
 	return 0;

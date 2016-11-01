@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\OpenCV310\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\OpenCV310\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenCV310\include;C:\OpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenCV310\lib;C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,7 +114,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\kuOpenGLTest3_Shaders\kuShaderHandler.cpp" />
     <ClCompile Include="kuOpenGLTest3_TexturedCube.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\kuOpenGLTest3_Shaders\kuShaderHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
