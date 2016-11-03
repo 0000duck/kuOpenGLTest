@@ -19,10 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8084F583-CD2B-4847-BE15-713E1ACB8CE0}</ProjectGuid>
-    <RootNamespace>kuOpenGLTest3_TexturedCube</RootNamespace>
+    <ProjectGuid>{3A01F1F8-EA99-42F1-9752-126046FF83B8}</ProjectGuid>
+    <RootNamespace>kuOpenGLTest5_Transformation</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>kuOpenGLTest3_TexturedCube</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -70,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\OpenCV310\include;C:\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\OpenCV310\lib;C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenGL\include;C:\OpenCV310\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenGL\lib;C:\OpenCV310\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,11 +113,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\kuOpenGLTest3_Shaders\kuShaderHandler.cpp" />
-    <ClCompile Include="kuOpenGLTest3_TexturedCube.cpp" />
+    <ClCompile Include="kuOpenGLTest5_Transformation.cpp" />
+    <ClCompile Include="kuShaderHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\kuOpenGLTest3_Shaders\kuShaderHandler.h" />
+    <None Include="FragmentShader.frag" />
+    <None Include="VertexShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="kuShaderHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

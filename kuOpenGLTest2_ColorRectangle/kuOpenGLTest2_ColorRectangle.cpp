@@ -36,7 +36,7 @@ GLfloat vertices[] = {
 	-0.5f,  0.5f, 0.0f,	   1.0f, 0.0f, 0.0f,		// Top Left 
 	 0.5f,  0.5f, 0.0f,	   0.0f, 1.0f, 0.0f,		// Top Right
 	 0.5f, -0.5f, 0.0f,	   0.0f, 0.0f, 0.1f,		// Bottom Right
-	-0.5f, -0.5f, 0.0f,	   1.0f, 1.0f, 1.0f			// Bottom Left	
+	-0.5f, -0.5f, 0.0f,	   1.0f, 1.0f, 0.0f			// Bottom Left	
 };
 GLuint indices[] = {
 	0, 1, 2,   // First Triangle
