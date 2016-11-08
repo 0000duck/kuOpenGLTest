@@ -25,72 +25,70 @@ GLuint	CreateTexturebyImage(char * filename);
 
 int  main()
 {
-	GLfloat	vertices[]
+	const GLfloat	vertices[]
 		= {
 		// Frontal Face
-		// Positions          // Colors           // Texture Coords
-		-0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,   // 0: Top Left  
-		 0.5f,  0.5f, 0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,   // 1: Top Right
-		 0.5f, -0.5f, 0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,   // 2: Bottom Right
-		 0.5f, -0.5f, 0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,   // Bottom Right
-		-0.5f, -0.5f, 0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,   // 3: Bottom Left
-		-0.5f,  0.5f, 0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,   // Top Left
-		
-		// Back face
-		 0.5f,  0.5f, -0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
-
-		// Left Face
-		 0.5f,  0.5f,  0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,			// 0:  Top Left  
+		 0.5f,  0.5f,  0.5f,			// 1:  Top Right
+		 0.5f, -0.5f,  0.5f,			// 2:  Bottom Right
+		-0.5f, -0.5f,  0.5f,			// 3:  Bottom Left
 
 		// Right Face
-		-0.5f,  0.5f, -0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,			// 4:  Top Left
+		-0.5f,  0.5f,  0.5f,			// 5:  Top Right
+		-0.5f, -0.5f,  0.5f,			// 6:  Bottom Right
+		-0.5f, -0.5f, -0.5f,			// 7:  Bottom Left
+
+		// Back face
+		 0.5f,  0.5f, -0.5f,			// 8:  Top Left 
+		-0.5f,  0.5f, -0.5f,			// 9:  Top Right
+		-0.5f, -0.5f, -0.5f,			// 10: Bottom Right
+		 0.5f, -0.5f, -0.5f,			// 11: Bottom Left
+
+		// Left Face
+		 0.5f,  0.5f,  0.5f,			// 12: Top Left 
+		 0.5f,  0.5f, -0.5f, 			// 13: Top Right
+		 0.5f, -0.5f, -0.5f, 			// 14: Bottom Right
+		 0.5f, -0.5f,  0.5f,  			// 15: Bottom Left
 
 		// Up Face
-		-0.5f,  0.5f, -0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  		    // 16: Top Left 
+		 0.5f,  0.5f, -0.5f,  		    // 17: Top Right
+		 0.5f,  0.5f,  0.5f,  		    // 18: Bottom Right
+		-0.5f,  0.5f,  0.5f,  		    // 19: Bottom Left
 
 		// Down Face
-		-0.5f, -0.5f,  0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f
+		-0.5f, -0.5f,  0.5f,			// 20: Top Left 
+		 0.5f, -0.5f,  0.5f,  			// 21: Top Right
+		 0.5f, -0.5f, -0.5f,    		// 22: Bottom Right
+		-0.5f, -0.5f, -0.5f  			// 23: Bottom Left
 	};
 
-	//GLuint indices[]
-	//	= { 
-	//		// Frontal 
-	//		0, 1, 3,
-	//		1, 2, 3,
+	const GLfloat   texCoords[]
+		= {
+		0.0f, 0.0f,    1.0f, 0.0f,    1.0f, 1.0f,    0.0f, 1.0f,
+		0.0f, 0.0f,    1.0f, 0.0f,    1.0f, 1.0f,    0.0f, 1.0f,
+		0.0f, 0.0f,    1.0f, 0.0f,    1.0f, 1.0f,    0.0f, 1.0f,
+		0.0f, 0.0f,    1.0f, 0.0f,    1.0f, 1.0f,    0.0f, 1.0f,
+		0.0f, 0.0f,    1.0f, 0.0f,    1.0f, 1.0f,    0.0f, 1.0f,
+		0.0f, 0.0f,    1.0f, 0.0f,    1.0f, 1.0f,    0.0f, 1.0f
+	};
 
-	//		// Back
-	//		4, 5, 7,
-	//		5, 6, 7,
-
-	//		// Left
-	//		4, 5, 0,
-	//		5, 1, 0
-	//	  };
+	const GLuint    indices[]
+		= { 
+			// Frontal 
+			 0,  1,  3,	  1,  2,  3,
+			// Right
+			 4,  5,  7,	  5,  6,  7,
+			// Back
+			 8,  9, 11,	  9, 10, 11,
+			// Left
+			12, 13, 15,  13, 14, 15,
+			// Up
+			16, 17, 19,  17, 18, 19,
+			// Down 
+			20, 21, 23,  21, 22, 23
+	};
 
 	if (!glfwInit())
 	{
@@ -138,26 +136,28 @@ int  main()
 	glGenVertexArrays(1, &VertexArray);
 	GLuint VertexBuffer = 0;				// Vertex Buffer Object (VBO)
 	glGenBuffers(1, &VertexBuffer);			// give an ID to vertex buffer
-	//GLuint ElementBuffer = 0;				// Element Buffer Object (EBO)
-	//glGenBuffers(1, &ElementBuffer);
+	GLuint TexCoordBuffer = 0;
+	glGenBuffers(1, &TexCoordBuffer);
+	GLuint ElementBuffer = 0;				// Element Buffer Object (EBO)
+	glGenBuffers(1, &ElementBuffer);
 
 	glBindVertexArray(VertexArray);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer); // Bind buffer as array buffer
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBuffer);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
 	// Position
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
-	// Color
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
+	
+
+	glBindBuffer(GL_ARRAY_BUFFER, TexCoordBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
 	// TexCoord
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(1);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -191,13 +191,13 @@ int  main()
 		ViewMatLoc = glGetUniformLocation(ShaderHandler.ShaderProgramID, "ViewMat");
 		glUniformMatrix4fv(ViewMatLoc, 1, GL_FALSE, glm::value_ptr(ViewMat));
 		
-		//glBindVertexArray(VertexArray);
-		//glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, 0);
-		//glBindVertexArray(0);
-
 		glBindVertexArray(VertexArray);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
+
+		//glBindVertexArray(VertexArray);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
 	}
