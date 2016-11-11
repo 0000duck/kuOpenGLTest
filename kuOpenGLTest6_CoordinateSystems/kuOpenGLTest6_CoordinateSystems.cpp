@@ -185,7 +185,7 @@ int  main()
 		glBindTexture(GL_TEXTURE_2D, TextureID);
 	
 		glm::mat4 ViewMat;
-		ViewMat = glm::translate(ViewMat, glm::vec3(0.0f, 0.0f, -2.0f));
+		ViewMat = glm::translate(ViewMat, glm::vec3(0.0f, 0.0f, -3.0f));
 		ViewMat = glm::rotate(ViewMat, (GLfloat)pi * (GLfloat)glfwGetTime() * 20.0f / 180.0f,
 							  glm::vec3(1.0, 1.0, 0.0)); // mat, degree, axis. (use radians)
 		ViewMatLoc = glGetUniformLocation(ShaderHandler.ShaderProgramID, "ViewMat");

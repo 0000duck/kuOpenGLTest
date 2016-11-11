@@ -15,6 +15,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kuOpenGLTest5_Transformatio
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kuOpenGLTest6_CoordinateSystems", "kuOpenGLTest6_CoordinateSystems\kuOpenGLTest6_CoordinateSystems.vcxproj", "{09164BA2-4AA3-402A-B946-695106421C61}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kuOpenGLTest7_Camera", "kuOpenGLTest7_Camera\kuOpenGLTest7_Camera.vcxproj", "{31CC2568-2B28-4578-A344-776E914D18D4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kuOpenGLTestXX_Assimp", "kuOpenGLTestXX_Assimp\kuOpenGLTestXX_Assimp.vcxproj", "{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +75,22 @@ Global
 		{09164BA2-4AA3-402A-B946-695106421C61}.Release|x64.Build.0 = Release|x64
 		{09164BA2-4AA3-402A-B946-695106421C61}.Release|x86.ActiveCfg = Release|Win32
 		{09164BA2-4AA3-402A-B946-695106421C61}.Release|x86.Build.0 = Release|Win32
+		{31CC2568-2B28-4578-A344-776E914D18D4}.Debug|x64.ActiveCfg = Debug|x64
+		{31CC2568-2B28-4578-A344-776E914D18D4}.Debug|x64.Build.0 = Debug|x64
+		{31CC2568-2B28-4578-A344-776E914D18D4}.Debug|x86.ActiveCfg = Debug|Win32
+		{31CC2568-2B28-4578-A344-776E914D18D4}.Debug|x86.Build.0 = Debug|Win32
+		{31CC2568-2B28-4578-A344-776E914D18D4}.Release|x64.ActiveCfg = Release|x64
+		{31CC2568-2B28-4578-A344-776E914D18D4}.Release|x64.Build.0 = Release|x64
+		{31CC2568-2B28-4578-A344-776E914D18D4}.Release|x86.ActiveCfg = Release|Win32
+		{31CC2568-2B28-4578-A344-776E914D18D4}.Release|x86.Build.0 = Release|Win32
+		{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}.Debug|x64.ActiveCfg = Debug|x64
+		{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}.Debug|x64.Build.0 = Debug|x64
+		{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}.Debug|x86.ActiveCfg = Debug|Win32
+		{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}.Debug|x86.Build.0 = Debug|Win32
+		{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}.Release|x64.ActiveCfg = Release|x64
+		{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}.Release|x64.Build.0 = Release|x64
+		{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}.Release|x86.ActiveCfg = Release|Win32
+		{9CB8B9AC-22D7-47D2-9030-6AA2FF4C7F45}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
