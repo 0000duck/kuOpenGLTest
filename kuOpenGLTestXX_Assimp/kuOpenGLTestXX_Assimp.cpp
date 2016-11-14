@@ -100,7 +100,7 @@ int main()
 
 		double EndTime = glfwGetTime();
 
-		cout << "FPS: " << 1/(EndTime - StartTime) << endl;
+		//cout << "FPS: " << 1/(EndTime - StartTime) << endl;
 
 		glfwSwapBuffers(window);
 	}
@@ -108,4 +108,4 @@ int main()
 	glfwTerminate();
 
 	return 0;
-}
+} 

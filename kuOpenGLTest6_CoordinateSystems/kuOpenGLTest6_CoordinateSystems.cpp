@@ -149,7 +149,6 @@ int  main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(0);
 	
-
 	glBindBuffer(GL_ARRAY_BUFFER, TexCoordBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
 	// TexCoord
@@ -194,10 +193,6 @@ int  main()
 		glBindVertexArray(VertexArray);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
-
-		//glBindVertexArray(VertexArray);
-		//glDrawArrays(GL_TRIANGLES, 0, 36);
-		//glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
 	}

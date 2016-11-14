@@ -30,7 +30,8 @@ public:
 	void Draw(kuShaderHandler shader);
 
 private:
-	vector<kuMesh>		kuMeshes;
+	vector<kuMesh>		ObjectMeshes;
+	vector<kuMaterial>	ObjectMaterials;
 	vector<kuTexture>	TextureLoaded;
 
 	void LoadModel(char * filename);

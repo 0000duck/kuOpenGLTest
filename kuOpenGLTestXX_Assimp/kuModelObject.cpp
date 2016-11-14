@@ -18,9 +18,16 @@ kuModelObject::~kuModelObject()
 
 void kuModelObject::Draw(kuShaderHandler shader)
 {
-	for (int i = 0; i < kuMeshes.size(); i++)
+	glUniform3f(glGetUniformLocation(shader.ShaderProgramID, "material.ambient"),
+				ObjectMaterials[0].Ambient.r, ObjectMaterials[0].Ambient.g, ObjectMaterials[0].Ambient.b);
+	glUniform3f(glGetUniformLocation(shader.ShaderProgramID, "material.diffuse"),
+				ObjectMaterials[0].Diffuse.r, ObjectMaterials[0].Diffuse.g, ObjectMaterials[0].Diffuse.b);
+	glUniform3f(glGetUniformLocation(shader.ShaderProgramID, "material.specular"),
+				ObjectMaterials[0].Specular.r, ObjectMaterials[0].Specular.g, ObjectMaterials[0].Specular.b);
+
+	for (int i = 0; i < ObjectMeshes.size(); i++)
 	{
-		this->kuMeshes[i].Draw(shader);
+		this->ObjectMeshes[i].Draw(shader);
 	}
 }
 
@@ -57,9 +64,7 @@ void kuModelObject::ProcessNode(aiNode * node, const aiScene * scene)
 	{
 		aiMesh * mesh = scene->mMeshes[node->mMeshes[i]];			// 去從scene的mMeshes裡面根據node裡存的index要mesh出來
 
-
-
-		this->kuMeshes.push_back(this->processMesh(mesh, scene));
+		this->ObjectMeshes.push_back(this->processMesh(mesh, scene));
 	}
 
 	for (int i = 0; i < node->mNumChildren; i++)
@@ -117,6 +122,7 @@ kuMesh kuModelObject::processMesh(aiMesh * mesh, const aiScene * scene)
 	aiColor4D diffuse;
 	aiColor4D specular;
 	aiColor4D ambient;
+	kuMaterial materialTemp;
 
 	if (mesh->mMaterialIndex >= 0)
 	{
@@ -126,13 +132,11 @@ kuMesh kuModelObject::processMesh(aiMesh * mesh, const aiScene * scene)
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &specular);
 		aiGetMaterialColor(material, AI_MATKEY_COLOR_AMBIENT, &ambient);
 
+		materialTemp.Ambient  = glm::vec3(ambient.r, ambient.g, ambient.b);
+		materialTemp.Diffuse  = glm::vec3(diffuse.r, diffuse.g, diffuse.b);
+		materialTemp.Specular = glm::vec3(specular.r, specular.g, specular.b);
 
-		/*vector<kuTexture> diffuseMaps = this->loadMaterialTextures(material,
-			aiTextureType_DIFFUSE, "texture_diffuse");
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		vector<kuTexture> specularMaps = this->loadMaterialTextures(material,
-			aiTextureType_SPECULAR, "texture_specular");
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());*/
+		ObjectMaterials.push_back(materialTemp);
 	}
 
 	return kuMesh(vertices, indices, textures);

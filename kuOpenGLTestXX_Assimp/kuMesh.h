@@ -28,6 +28,12 @@ struct kuTexture {
 	string   type;
 };
 
+struct kuMaterial {
+	glm::vec3		Ambient;
+	glm::vec3		Diffuse;
+	glm::vec3		Specular;
+};
+
 class kuMesh
 {
 public:
