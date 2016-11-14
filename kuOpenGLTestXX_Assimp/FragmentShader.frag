@@ -17,7 +17,7 @@ uniform Material material;
 void main()
 {    
 	vec3 LightColor = vec3(1.0, 1.0, 1.0);
-	vec3 LightPos = vec3(0.0, 0.0, 500.0);
+	vec3 LightPos = vec3(0.0, 0.0, 200.0);
 	vec3 viewPos = vec3(0.0, 0.0, 0.0);
 
 	// Ambient
@@ -30,12 +30,13 @@ void main()
 	vec3 diffuse = diff * LightColor * material.diffuse;
 
 	// Specular
-	// vec3 viewDir = normalize(viewPos - FragPos);
-	// vec3 reflectDir = reflect(-lightDir, norm);
-	// float spec = pow(max(dot(viewDir, reflectDir), 0.0), 1.0);
-	// vec3 specular = spec * LightColor * material.specular;
-	vec3 specular = vec3(0.0, 0.0, 0.0);
+	vec3 viewDir = normalize(viewPos - FragPos);
+	vec3 reflectDir = reflect(-lightDir, norm);
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 1.0);
+	vec3 specular = spec * LightColor * material.specular;
+	//vec3 specular = vec3(0.0, 0.0, 0.0);
 
-	color = vec4(ambient + diffuse + specular, 1.0f) * vec4(1.0f, 1.0f, 1.0f, 1.0f);
+				 // lighting color					   // object color
+	color = vec4(ambient + diffuse + specular, 1.0f) * vec4(0.6f, 0.6f, 0.6f, 1.0f);
 	//color = vec4(0.6f, 0.6f, 0.6f, 1.0f);
 }
