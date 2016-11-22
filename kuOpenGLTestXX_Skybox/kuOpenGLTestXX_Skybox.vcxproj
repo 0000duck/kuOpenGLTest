@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{35B4611F-F617-49C3-B2E3-8CF267539F90}</ProjectGuid>
-    <RootNamespace>kuOpenGLTestXX_BackGroundImg</RootNamespace>
+    <ProjectGuid>{5115B55F-BE8E-43E2-A29A-768EF01DDC43}</ProjectGuid>
+    <RootNamespace>kuOpenGLTestXX_Skybox</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -113,17 +113,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="kuOpenGLTestXX_BackGroundImg.cpp" />
+    <ClCompile Include="kuOpenGLTestXX_Skybox.cpp" />
     <ClCompile Include="kuShaderHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="kuShaderHandler.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BGImgFragmentShader.frag" />
-    <None Include="BGImgVertexShader.vert" />
-    <None Include="ObjectFragmentShader.frag" />
-    <None Include="ObjectVertexShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
