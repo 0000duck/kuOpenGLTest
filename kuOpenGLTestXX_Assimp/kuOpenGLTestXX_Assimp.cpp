@@ -17,7 +17,9 @@
 
 using namespace std;
 
-#define pi 3.1415926
+#define pi			3.1415926
+#define WndWidth	1024
+#define WndHeight	768
 
 glm::vec3 CameraPos   = glm::vec3(0.0f, 0.0f,  200.0f);
 glm::vec3 CameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -36,7 +38,7 @@ void			do_movement();
 
 int main()
 {
-	GLFWwindow * window = kuGLInit("kuOpenGLTest", 640, 480);
+	GLFWwindow * window = kuGLInit("kuOpenGLTest", WndWidth, WndHeight);
 
 	kuModelObject	Model("LAI-WEN-HSIEN-big.surf.stl");
 	kuShaderHandler ModelShader;
@@ -132,7 +134,7 @@ GLFWwindow * kuGLInit(const char * title, int xRes, int yRes)
 	}
 
 	// Define the viewport dimensions
-	glViewport(0, 0, 640, 480);
+	glViewport(0, 0, xRes, yRes);
 
 	// Setup OpenGL options (z-buffer)
 	glEnable(GL_DEPTH_TEST);
