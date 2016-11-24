@@ -34,7 +34,7 @@ int  main()
 
 	GLuint indices[]
 		= { 0, 1, 3,
-		1, 2, 3 };
+		    1, 2, 3 };
 
 	if (!glfwInit())
 	{
@@ -138,10 +138,10 @@ int  main()
 		glBindTexture(GL_TEXTURE_2D, texture);
 
 		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(0.25, 0.0, 0.0));
+		//trans = glm::translate(trans, glm::vec3(0.25, 0.0, 0.0));
 		trans = glm::rotate(trans, (GLfloat)pi * (GLfloat)glfwGetTime() * 45.0f / 180.0f, 
 							glm::vec3(0.0, 1.0, 0.0)); // mat, degree, axis. (use radians)
-		trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+		//trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
 
 		GLuint transformLoc = glGetUniformLocation(ShaderHnadler.ShaderProgramID, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
