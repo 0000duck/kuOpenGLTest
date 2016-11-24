@@ -119,33 +119,6 @@ int main()
 	kuShaderHandler ObjShaderHandler;
 	ObjShaderHandler.Load("ObjectVertexShader.vert", "ObjectFragmentShader.frag");
 	
-	/*
-	GLuint BGVertexArray = 0;
-	glGenVertexArrays(1, &BGVertexArray);
-	GLuint BGVertexBuffer = 0;				// Vertex Buffer Object (VBO)
-	glGenBuffers(1, &BGVertexBuffer);			// give an ID to vertex buffer
-	GLuint BGElementBuffer = 0;				// Element Buffer Object (EBO)
-	glGenBuffers(1, &BGElementBuffer);
-
-	glBindVertexArray(BGVertexArray);
-
-	glBindBuffer(GL_ARRAY_BUFFER, BGVertexBuffer); // Bind buffer as array buffer
-	glBufferData(GL_ARRAY_BUFFER, sizeof(BGVertices), BGVertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BGElementBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	// Position
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-	// TexCoord
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-	*/
-
 	GLuint CubeVertexArray = 0;
 	glGenVertexArrays(1, &CubeVertexArray);
 	GLuint CubeVertexBuffer = 0;				// Vertex Buffer Object (VBO)
@@ -175,20 +148,17 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	Mat		CubeTextureImg = imread("TexImage.jpg");
+	Mat		CubeTextureImg = imread("ihatepeople.jpg");
 	GLuint	CubeTextureID = CreateTexturebyImage(CubeTextureImg);
 
 	GLuint		ModelMatLoc, ViewMatLoc, ProjMatLoc;
 	glm::mat4	ModelMat, ProjMat, ViewMat;
 
-
-	ViewMatLoc = glGetUniformLocation(ObjShaderHandler.ShaderProgramID, "ViewMat");
-	ProjMatLoc = glGetUniformLocation(ObjShaderHandler.ShaderProgramID, "ProjMat");
+	ViewMatLoc  = glGetUniformLocation(ObjShaderHandler.ShaderProgramID, "ViewMat");
+	ProjMatLoc  = glGetUniformLocation(ObjShaderHandler.ShaderProgramID, "ProjMat");
 	ModelMatLoc = glGetUniformLocation(ObjShaderHandler.ShaderProgramID, "ModelMat");
 
 	ProjMat = glm::perspective(45.0f, (GLfloat)640 / (GLfloat)480, 0.1f, 1000.0f);
-
-	GLuint BGProjMatLoc = glGetUniformLocation(BGImgShaderHandler.ShaderProgramID, "ProjMat");
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -201,23 +171,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		CamCapture->read(CamFrame);
-		/*
-		glDisable(GL_DEPTH_TEST);
-		glDepthMask(GL_FALSE);
-		
-		BGImgShaderHandler.Use();
-		
-		GLuint TextureID = CreateTexturebyImage(CamFrame);
-
-		glBindTexture(GL_TEXTURE_2D, TextureID);
-
-		glBindVertexArray(BGVertexArray);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-		//glBindTexture(GL_TEXTURE_2D, 0);
-		glDeleteTextures(1, &TextureID);
-		*/
-
+	
 		DrawBGImage(CamFrame, BGImgShaderHandler);
 
 		glEnable(GL_DEPTH_TEST);
@@ -227,25 +181,24 @@ int main()
 		
 		glBindTexture(GL_TEXTURE_2D, CubeTextureID);
 
-		glm::mat4 trans;
-		trans = glm::translate(trans, glm::vec3(0.0, 0.0, -2.0));
-		trans = glm::rotate(trans, (GLfloat)pi * (GLfloat)glfwGetTime() * 45.0f / 180.0f,
-							glm::vec3(0.0, 1.0, 0.0)); // mat, degree, axis. (use radians)
-		
-		GLuint transformLoc = glGetUniformLocation(ObjShaderHandler.ShaderProgramID, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-		glUniformMatrix4fv(ProjMatLoc, 1, GL_FALSE, glm::value_ptr(ProjMat));
+		glm::mat4 ViewMat;
+		ViewMat = glm::translate(ViewMat, glm::vec3(0.0f, 0.0f, -3.0f));
+		ViewMat = glm::rotate(ViewMat, (GLfloat)pi * (GLfloat)glfwGetTime() * 30.0f / 180.0f,
+							  glm::vec3(1.0, 1.0, 0.0)); // mat, degree, axis. (use radians)
+
+		glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, glm::value_ptr(ModelMat));
+		glUniformMatrix4fv(ViewMatLoc,  1, GL_FALSE, glm::value_ptr(ViewMat));
+		glUniformMatrix4fv(ProjMatLoc,  1, GL_FALSE, glm::value_ptr(ProjMat));
 
 		glBindVertexArray(CubeVertexArray);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		
-
 		glfwSwapBuffers(window);
 
 		GLfloat EndTime = glfwGetTime();
 
-		cout << 1 / (EndTime - StartTime) << endl;
+		//cout << 1 / (EndTime - StartTime) << endl;
 	}
 
 	glfwTerminate();
