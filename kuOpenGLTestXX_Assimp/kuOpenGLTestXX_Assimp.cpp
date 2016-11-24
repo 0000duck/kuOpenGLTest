@@ -21,19 +21,27 @@ using namespace std;
 #define WndWidth	1024
 #define WndHeight	768
 
-glm::vec3 CameraPos   = glm::vec3(0.0f, 0.0f,  200.0f);
-glm::vec3 CameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 CameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+glm::vec3		CameraPos   = glm::vec3(0.0f, 0.0f,  200.0f);
+glm::vec3		CameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3		CameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+
+GLfloat			yaw   = -90.0f;			// Yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right
+GLfloat			pitch =  0.0f;
+GLfloat			LastXPos, LastYPos;
 
 GLfloat			deltaTime  = 0.0f;
 GLfloat			lastFrameT = 0.0f;
 
 bool			keyPressArray[1024];
 
+bool			firstMouse = true;
+
+
 vector<int>		keySeq;					// 測試過用vector加上switch的方法寫好像不會比較好，留著當提醒吧
 
 GLFWwindow	*	kuGLInit(const char * title, int xRes, int yRes);
 void			key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
+void			mouse_callback(GLFWwindow * window, double xPos, double yPos);
 void			do_movement();
 
 int main()
@@ -50,14 +58,18 @@ int main()
 	glm::mat4	ModelMat, ProjMat, ViewMat;
 
 	ProjMat = glm::perspective(45.0f, (GLfloat)640 / (GLfloat)480, 0.1f, 1000.0f);
-	ProjMatLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "ProjMat");
-	glUniformMatrix4fv(ProjMatLoc, 1, GL_FALSE, glm::value_ptr(ProjMat));
-
+	
 	//ModelMat = glm::rotate(ModelMat, (GLfloat)pi * -90.0f / 180.0f,
 	//					     glm::vec3(1.0f, 0.0f, 0.0f)); // mat, degree, axis. (use radians)
 
 	//ViewMat = glm::translate(ViewMat, glm::vec3(0.0f, 0.0f, -200.0f));	// 這邊放外參(世界座標系統轉到攝影機座標系統 Pc = E * Pw)(應該吧 需要實際測試)
 	//ViewMat = glm::inverse(ViewMat);										// invert過來就是camera要動的量
+	ProjMatLoc   = glGetUniformLocation(ModelShader.ShaderProgramID, "ProjMat");
+	ViewMatLoc   = glGetUniformLocation(ModelShader.ShaderProgramID, "ViewMat");
+	ModelMatLoc  = glGetUniformLocation(ModelShader.ShaderProgramID, "ModelMat");
+	CameraPosLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "CameraPos");
+
+	glUniformMatrix4fv(ProjMatLoc, 1, GL_FALSE, glm::value_ptr(ProjMat));
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -77,16 +89,9 @@ int main()
 		ModelShader.Use();
 
 		ViewMat = glm::lookAt(CameraPos, CameraPos + CameraFront, CameraUp);
-		ViewMatLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "ViewMat");
-		glUniformMatrix4fv(ViewMatLoc, 1, GL_FALSE, glm::value_ptr(ViewMat));
 
-		//ModelMat = glm::mat4(1.0);
-		//ModelMat = glm::rotate(ModelMat, (GLfloat)pi * (float)glfwGetTime() * 10.0f / 180.0f,
-		//					   glm::vec3(0.0f, 1.0f, 0.0f)); // mat, degree, axis. (use radians)
-		ModelMatLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "ModelMat");
+		glUniformMatrix4fv(ViewMatLoc,  1, GL_FALSE, glm::value_ptr(ViewMat));
 		glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, glm::value_ptr(ModelMat));
-
-		CameraPosLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "CameraPos");
 		glUniform3fv(CameraPosLoc, 1, glm::value_ptr(CameraPos));
 
 		Model.Draw(ModelShader);
@@ -123,6 +128,9 @@ GLFWwindow * kuGLInit(const char * title, int xRes, int yRes)
 	glfwMakeContextCurrent(window);
 
 	glfwSetKeyCallback(window, key_callback);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(window, mouse_callback);				// 顧名思義...大概只有位置資訊而沒有button事件資訊吧
 
 	// need to create OpenGL window before glew initialization.
 	//glewExperimental = GL_TRUE;
@@ -175,6 +183,41 @@ void key_callback(GLFWwindow * window, int key, int scancode, int action, int mo
 	}
 }
 
+void mouse_callback(GLFWwindow * window, double xPos, double yPos)
+{
+	if (firstMouse)
+	{
+		LastXPos = xPos;
+		LastYPos = yPos;
+
+		firstMouse = false;
+	}
+
+	GLfloat xOffset = xPos - LastXPos;
+	GLfloat yOffset = yPos - LastYPos;
+	LastXPos = xPos;
+	LastYPos = yPos;
+	
+	GLfloat sensitivity = 0.05;
+	xOffset *= sensitivity;
+	yOffset *= sensitivity;
+
+	yaw   += xOffset;
+	pitch += yOffset;
+
+	// Make sure that when pitch is out of bounds, screen doesn't get flipped
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	CameraFront = glm::normalize(front);
+}
+
 void do_movement()
 {
 	// Camera controls
@@ -182,7 +225,7 @@ void do_movement()
 	GLfloat CameraSpeedY = 2.0f;
 	GLfloat CameraSpeedZ = 2.0f;
 
-	GLfloat CameraSpeed = 100.0f * deltaTime;
+	GLfloat CameraSpeed = 50.0f * deltaTime;
 	
 	if (keyPressArray[GLFW_KEY_W])
 	{
@@ -194,13 +237,15 @@ void do_movement()
 	}
 	if (keyPressArray[GLFW_KEY_A])
 	{
-		//CameraPos -= glm::normalize(glm::cross(CameraFront, CameraUp)) * cameraSpeed;
-		CameraPos = glm::vec3(CameraPos.x -= CameraSpeed, CameraPos.y, CameraPos.z);
+		CameraPos -= glm::normalize(glm::cross(CameraFront, CameraUp)) * CameraSpeed;
+		//CameraPos = glm::vec3(CameraPos.x -= CameraSpeed, CameraPos.y, CameraPos.z);
 	}
 	if (keyPressArray[GLFW_KEY_D])
 	{
-		//CameraPos += glm::normalize(glm::cross(CameraFront, CameraUp)) * cameraSpeed;
-		CameraPos = glm::vec3(CameraPos.x += CameraSpeed, CameraPos.y, CameraPos.z);
+		CameraPos += glm::normalize(glm::cross(CameraFront, CameraUp)) * CameraSpeed;
+		//CameraPos = glm::vec3(CameraPos.x += CameraSpeed, CameraPos.y, CameraPos.z);
+
+		// 不用下面的原因是....當加上mouse來做視角旋轉的時候，position根據CameraFront相對來算才是對的。根據直角坐標直接加會有問題
 	}
 	if (keyPressArray[GLFW_KEY_Z])
 	{
