@@ -41,6 +41,8 @@ int  main()
 		cout << "glewInit failed, aborting." << endl;
 	}
 
+	//glEnable(GL_MULTISAMPLE); // Enabled by default on some drivers, but not all so always enable to make sure
+
 	// get version info
 	const GLubyte* renderer = glGetString(GL_RENDERER);
 	// get renderer string (graphic card)
@@ -82,7 +84,10 @@ int  main()
 		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
 		glBindVertexArray(VertexArray);
-		glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		//glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+		glEnable(GL_LINE_SMOOTH);
+		glLineWidth(5);
+		glDrawArrays(GL_LINE_LOOP, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);

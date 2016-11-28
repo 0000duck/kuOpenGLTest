@@ -117,8 +117,12 @@ int  main()
 	// Define the viewport dimensions
 	glViewport(0, 0, 640, 480);
 
+
 	// Setup OpenGL options (z-buffer)
 	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// get version info
 	const GLubyte* renderer = glGetString(GL_RENDERER);
@@ -189,6 +193,8 @@ int  main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glBindTexture(GL_TEXTURE_2D, TextureID);
+
+		glDisable(GL_CULL_FACE);
 
 		glBindVertexArray(VertexArray);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);

@@ -41,6 +41,6 @@ void main()
 
 				 // lighting color					   // object color
 	//color = vec4(ambient + diffuse + specular, 1.0f) * vec4(0.745f, 0.447f, 0.2352f, 1.0f);
-	color = vec4(ambient + diffuse + specular, 1.0f) * vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	color = vec4(ambient + diffuse + specular, 0.5f) * vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	//color = vec4(0.6f, 0.6f, 0.6f, 1.0f);
 }

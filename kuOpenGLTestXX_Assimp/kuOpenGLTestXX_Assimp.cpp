@@ -94,6 +94,8 @@ int main()
 		glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, glm::value_ptr(ModelMat));
 		glUniform3fv(CameraPosLoc, 1, glm::value_ptr(CameraPos));
 
+		glDisable(GL_CULL_FACE);
+
 		Model.Draw(ModelShader);
 
 		double EndTime = glfwGetTime();
@@ -146,6 +148,9 @@ GLFWwindow * kuGLInit(const char * title, int xRes, int yRes)
 
 	// Setup OpenGL options (z-buffer)
 	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// get version info
 	const GLubyte* renderer = glGetString(GL_RENDERER);
