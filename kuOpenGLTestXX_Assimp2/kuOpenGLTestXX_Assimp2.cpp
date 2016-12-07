@@ -21,15 +21,15 @@ using namespace std;
 #define WndWidth	1024
 #define WndHeight	768
 
-glm::vec3		CameraPos   = glm::vec3(0.0f, 0.0f,  200.0f);
+glm::vec3		CameraPos = glm::vec3(0.0f, 0.0f, 200.0f);
 glm::vec3		CameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3		CameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+glm::vec3		CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-GLfloat			yaw   = -90.0f;			// Yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right
-GLfloat			pitch =  0.0f;
+GLfloat			yaw = -90.0f;			// Yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right
+GLfloat			pitch = 0.0f;
 GLfloat			LastXPos, LastYPos;
 
-GLfloat			deltaTime  = 0.0f;
+GLfloat			deltaTime = 0.0f;
 GLfloat			lastFrameT = 0.0f;
 
 bool			keyPressArray[1024];
@@ -48,19 +48,21 @@ int main()
 {
 	GLFWwindow * window = kuGLInit("kuOpenGLTest", WndWidth, WndHeight);
 
-	kuModelObject	Model("kuFace_7d5wf_SG.obj");
+	kuModelObject	FaceModel("kuFace_7d5wf_SG.obj");
+	kuModelObject	BoneModel("kuBone_7d5wf_SG.obj");
 	kuShaderHandler ModelShader;
 	ModelShader.Load("VertexShader.vert", "FragmentShader.frag");
 	ModelShader.Use();
 
 	GLuint		CameraPosLoc;
 	GLuint		ModelMatLoc, ViewMatLoc, ProjMatLoc;
+	GLuint		ObjColorLoc;
 	glm::mat4	ModelMat, ProjMat, ViewMat;
 
 	ProjMat = glm::perspective(45.0f, (GLfloat)640 / (GLfloat)480, 0.1f, 1000.0f);
-	
-	//ModelMat = glm::rotate(ModelMat, (GLfloat)pi * -90.0f / 180.0f,
-	//					     glm::vec3(1.0f, 0.0f, 0.0f)); // mat, degree, axis. (use radians)
+
+	ModelMat = glm::rotate(ModelMat, (GLfloat)pi * -90.0f / 180.0f,
+						   glm::vec3(1.0f, 0.0f, 0.0f)); // mat, degree, axis. (use radians)
 
 	//ViewMat = glm::translate(ViewMat, glm::vec3(0.0f, 0.0f, -200.0f));	// 這邊放外參(世界座標系統轉到攝影機座標系統 Pc = E * Pw)(應該吧 需要實際測試)
 	//ViewMat = glm::inverse(ViewMat);										// invert過來就是camera要動的量
@@ -69,17 +71,21 @@ int main()
 	ModelMatLoc  = glGetUniformLocation(ModelShader.ShaderProgramID, "ModelMat");
 	CameraPosLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "CameraPos");
 
+	ObjColorLoc  = glGetUniformLocation(ModelShader.ShaderProgramID, "ObjColor");
+
 	glUniformMatrix4fv(ProjMatLoc, 1, GL_FALSE, glm::value_ptr(ProjMat));
+
+	GLfloat FaceColorVec[4] = { 0.745f, 0.447f, 0.235f, 0.6f };
+	GLfloat BoneColorVec[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	while (!glfwWindowShouldClose(window))
 	{
 		GLfloat currFrameT = glfwGetTime();
-		deltaTime  = currFrameT - lastFrameT;
+		deltaTime = currFrameT - lastFrameT;
 		lastFrameT = currFrameT;
 
 		glfwPollEvents();
 		do_movement();
-		keySeq.clear();
 
 		double StartTime = glfwGetTime();
 
@@ -90,13 +96,20 @@ int main()
 
 		ViewMat = glm::lookAt(CameraPos, CameraPos + CameraFront, CameraUp);
 
-		glUniformMatrix4fv(ViewMatLoc,  1, GL_FALSE, glm::value_ptr(ViewMat));
+		glUniformMatrix4fv(ViewMatLoc, 1, GL_FALSE, glm::value_ptr(ViewMat));
 		glUniformMatrix4fv(ModelMatLoc, 1, GL_FALSE, glm::value_ptr(ModelMat));
 		glUniform3fv(CameraPosLoc, 1, glm::value_ptr(CameraPos));
 
-		glDisable(GL_CULL_FACE);
+		// Inner object first.
+		glUniform4fv(ObjColorLoc, 1, BoneColorVec);
+		BoneModel.Draw(ModelShader);
 
-		Model.Draw(ModelShader);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		// Draw outside object latter
+		glUniform4fv(ObjColorLoc, 1, FaceColorVec);
+		FaceModel.Draw(ModelShader);
 
 		double EndTime = glfwGetTime();
 
@@ -108,7 +121,7 @@ int main()
 	glfwTerminate();
 
 	return 0;
-} 
+}
 
 GLFWwindow * kuGLInit(const char * title, int xRes, int yRes)
 {
@@ -134,8 +147,8 @@ GLFWwindow * kuGLInit(const char * title, int xRes, int yRes)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_callback);				// 顧名思義...大概只有位置資訊而沒有button事件資訊吧
 
-	// need to create OpenGL window before glew initialization.
-	//glewExperimental = GL_TRUE;
+																	// need to create OpenGL window before glew initialization.
+																	//glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
 	if (err != GLEW_OK)
 	{
@@ -148,9 +161,6 @@ GLFWwindow * kuGLInit(const char * title, int xRes, int yRes)
 
 	// Setup OpenGL options (z-buffer)
 	glEnable(GL_DEPTH_TEST);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// get version info
 	const GLubyte* renderer = glGetString(GL_RENDERER);
@@ -179,7 +189,7 @@ void key_callback(GLFWwindow * window, int key, int scancode, int action, int mo
 		else if (action == GLFW_RELEASE)
 		{
 			keyPressArray[key] = false;
-		}		
+		}
 	}
 
 	if (key == GLFW_KEY_C)
@@ -202,12 +212,12 @@ void mouse_callback(GLFWwindow * window, double xPos, double yPos)
 	GLfloat yOffset = yPos - LastYPos;
 	LastXPos = xPos;
 	LastYPos = yPos;
-	
+
 	GLfloat sensitivity = 0.05;
 	xOffset *= sensitivity;
 	yOffset *= sensitivity;
 
-	yaw   += xOffset;
+	yaw += xOffset;
 	pitch += yOffset;
 
 	// Make sure that when pitch is out of bounds, screen doesn't get flipped
@@ -231,11 +241,11 @@ void do_movement()
 	GLfloat CameraSpeedZ = 2.0f;
 
 	GLfloat CameraSpeed = 50.0f * deltaTime;
-	
+
 	if (keyPressArray[GLFW_KEY_W])
 	{
 		CameraPos += CameraSpeed * CameraFront;
-	}	
+	}
 	if (keyPressArray[GLFW_KEY_S])
 	{
 		CameraPos -= CameraSpeed * CameraFront;
