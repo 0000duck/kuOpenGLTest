@@ -90,15 +90,11 @@ const GLuint    CubeIndices[]
 
 static const GLfloat BGVertices[]
 = {
+	// position	  // texcoord
 	 1.0f,  1.0f, 1.0f, 0.0f,
 	 1.0f, -1.0f, 1.0f, 1.0f,
 	-1.0f, -1.0f, 0.0f, 1.0f,
 	-1.0f,  1.0f, 0.0f, 0.0f
-};
-
-static const GLfloat BGTexCoords[]
-= {
-	 0.0
 };
 
 GLuint indices[]
