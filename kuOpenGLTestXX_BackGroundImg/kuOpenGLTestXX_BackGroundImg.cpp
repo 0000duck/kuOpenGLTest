@@ -19,9 +19,12 @@ using namespace std;
 
 #define pi 3.1415926
 
+int				ImgCnt = 0;
+
 GLFWwindow	*	kuGLInit(const char * title, int xRes, int yRes);
 GLuint			CreateTexturebyImage(Mat Img);
 void			DrawBGImage(Mat BGImg, kuShaderHandler BGShader);
+void			key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
 
 const GLfloat	CubeVertices[]
 = {
@@ -105,11 +108,13 @@ GLuint indices[]
 = { 0, 1, 3,
 	1, 2, 3 };
 
+Mat					CamFrame;
+VideoCapture	*	CamCapture = NULL;
+bool				SaveFlag = false;
+bool				SaveCompleteFlag = true;
+
 int main()
 {
-	Mat					CamFrame;
-	VideoCapture	*	CamCapture = NULL;
-
 	GLFWwindow * window = kuGLInit("kuOpenGLTest", 640, 480);
 
 	CamCapture = new VideoCapture(0);
@@ -171,6 +176,17 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		CamCapture->read(CamFrame);
+
+		if (SaveFlag)
+		{
+			char filename[80];
+
+			sprintf_s(filename, "Image%d.bmp", ImgCnt);
+			imwrite(filename, CamFrame);
+			ImgCnt++;
+
+			SaveFlag = false;
+		}
 	
 		DrawBGImage(CamFrame, BGImgShaderHandler);
 
@@ -190,9 +206,9 @@ int main()
 		glUniformMatrix4fv(ViewMatLoc,  1, GL_FALSE, glm::value_ptr(ViewMat));
 		glUniformMatrix4fv(ProjMatLoc,  1, GL_FALSE, glm::value_ptr(ProjMat));
 
-		glBindVertexArray(CubeVertexArray);
+		/*glBindVertexArray(CubeVertexArray);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		glBindVertexArray(0);*/
 		
 		glfwSwapBuffers(window);
 
@@ -226,6 +242,8 @@ GLFWwindow * kuGLInit(const char * title, int xRes, int yRes)
 	}
 
 	glfwMakeContextCurrent(window);
+
+	glfwSetKeyCallback(window, key_callback);
 
 	// need to create OpenGL window before glew initialization.
 	//glewExperimental = GL_TRUE;
@@ -334,4 +352,17 @@ void DrawBGImage(Mat BGImg, kuShaderHandler BGShader)
 	glDeleteVertexArrays(1, &BGVertexArray);
 	glDeleteBuffers(1, &BGVertexBuffer);
 	glDeleteBuffers(1, &BGElementBuffer);
+}
+
+void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+
+	if (key == GLFW_KEY_Q && action == GLFW_PRESS)
+	{
+		SaveFlag = true;
+	}
 }
