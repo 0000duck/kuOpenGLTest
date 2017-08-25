@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <time.h>
 
 #include <GLEW/glew.h>
 #include <GLFW/glfw3.h>
@@ -49,12 +50,28 @@ void			do_movement();
 GLuint			CreateTexturebyImage(Mat Img);
 void			DrawImage(Mat Img, kuShaderHandler ImgShader);
 
-GLfloat	ImgVertices[]
+GLfloat	AxiImgVertices[]
 = {
 	256.99f,	0.0f, 168.5f,	1.0f, 0.0f,
 	256.99f, 256.99f, 168.5f,	1.0f, 1.0f,
 	   0.0f, 256.99f, 168.5f,	0.0f, 1.0f,
 	   0.0f,	0.0f, 168.5f,	0.0f, 0.0f
+};
+
+GLfloat	SagImgVertices[]		// need to replace
+= {
+	128.5f,	0.0f, 168.5f,	1.0f, 0.0f,
+	128.5f, 256.99f, 168.5f,	1.0f, 1.0f,
+	128.5f,	 256.99f, 168.5f,	0.0f, 1.0f,
+	128.5f,		0.0f, 168.5f,	0.0f, 0.0f
+};
+
+GLfloat	CorImgVertices[]		// need to replace
+= {
+	256.99f,	0.0f, 168.5f,	1.0f, 0.0f,
+	256.99f, 256.99f, 168.5f,	1.0f, 1.0f,
+	0.0f,	 256.99f, 168.5f,	0.0f, 1.0f,
+	0.0f,		0.0f, 168.5f,	0.0f, 0.0f
 };
 
 GLuint ImgIndices[]
@@ -103,10 +120,16 @@ int main()
 
 	ObjColorLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "ObjColor");
 
-	GLfloat FaceColorVec[4] = { 0.745f, 0.447f, 0.235f, 0.5 };
-	GLfloat BoneColorVec[4] = { 1.0f, 1.0f, 1.0f, 1.0 };
+	/*GLfloat FaceColorVec[4] = { 0.745f, 0.447f, 0.235f, 0.5 };
+	GLfloat BoneColorVec[4] = { 1.0f, 1.0f, 1.0f, 1.0 };*/
 
-	Mat AxiImg = imread("HSIEH-CHUNG-HUNG-OrthoSlice.to-byte.0000.bmp", 1);
+	GLfloat FaceColorVec[4] = { 0.745f, 0.447f, 0.235f, 0.5f };
+	GLfloat BoneColorVec[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	Mat AxiImg = imread("HSIEH-CHUNG-HUNG-OrthoSlice.to-byte_axial.bmp", 1);
+	Mat SagImg = imread("HSIEH-CHUNG-HUNG-OrthoSlice.to-byte_sagittal.bmp", 1);
+	Mat CorImg = imread("HSIEH-CHUNG-HUNG-OrthoSlice.to-byte_conoral.bmp", 1);
+
 	//imshow("NEW SHIT", AxiImg);
 
 	while (!glfwWindowShouldClose(window))
@@ -155,7 +178,7 @@ int main()
 
 		double EndTime = glfwGetTime();
 
-		cout << "FPS: " << 1/(EndTime - StartTime) << endl;
+		//cout << "FPS: " << 1/(EndTime - StartTime) << endl;
 
 		glfwSwapBuffers(window);
 	}
@@ -316,17 +339,19 @@ void do_movement()
 
 void DrawImage(Mat Img, kuShaderHandler ImgShader)
 {
+	time_t StartTime = clock();
+
 	GLuint ImgVertexArray = 0;
 	glGenVertexArrays(1, &ImgVertexArray);
 	GLuint ImgVertexBuffer = 0;						// Vertex Buffer Object (VBO)
 	glGenBuffers(1, &ImgVertexBuffer);				// give an ID to vertex buffer
-	GLuint ImgElementBuffer = 0;						// Element Buffer Object (EBO)
+	GLuint ImgElementBuffer = 0;					// Element Buffer Object (EBO)
 	glGenBuffers(1, &ImgElementBuffer);
 
 	glBindVertexArray(ImgVertexArray);
 
 	glBindBuffer(GL_ARRAY_BUFFER, ImgVertexBuffer);  // Bind buffer as array buffer
-	glBufferData(GL_ARRAY_BUFFER, sizeof(ImgVertices), ImgVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(AxiImgVertices), AxiImgVertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ImgElementBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ImgIndices), ImgIndices, GL_STATIC_DRAW);
@@ -340,6 +365,10 @@ void DrawImage(Mat Img, kuShaderHandler ImgShader)
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	time_t EndTime = clock();
+
+	//cout << "time: " << difftime(EndTime, StartTime) << endl;
 
 	GLuint ImgTextureID = CreateTexturebyImage(Img);
 

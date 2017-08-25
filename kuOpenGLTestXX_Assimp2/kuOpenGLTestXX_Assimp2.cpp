@@ -37,7 +37,7 @@ bool			keyPressArray[1024];
 bool			firstMouse = true;
 
 
-vector<int>		keySeq;					// 測試過用vector加上switch的方法寫好像不會比較好，留著當提醒吧
+vector<int>		keySeq;					// 測試過鍵盤事件用vector加上switch的方法寫好像不會比較好，留著當提醒吧
 
 GLFWwindow	*	kuGLInit(const char * title, int xRes, int yRes);
 void			key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
