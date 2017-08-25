@@ -113,10 +113,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="kuGLImageObject.cpp" />
     <ClCompile Include="kuOpenGLTestXX_BackGroundImg.cpp" />
     <ClCompile Include="kuShaderHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="kuGLImageObject.h" />
     <ClInclude Include="kuShaderHandler.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <time.h>
 
 #include <opencv2/opencv.hpp>
 #include <GLEW/glew.h>
@@ -8,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "kuShaderHandler.h"
+#include "kuGLImageObject.h"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32.lib")
@@ -103,6 +105,7 @@ GLuint indices[]
 
 int main()
 {
+	time_t				StartT, EndT;
 	Mat					CamFrame;
 	VideoCapture	*	CamCapture = NULL;
 
@@ -168,7 +171,9 @@ int main()
 
 		CamCapture->read(CamFrame);
 	
-		DrawBGImage(CamFrame, BGImgShaderHandler);
+		kuGLImageObject		kuGLImg;							// 因為release的關係所以要這樣寫...之後再改好了...
+		kuGLImg.Draw(BGImgShaderHandler, CamFrame);
+		//DrawBGImage(CamFrame, BGImgShaderHandler);
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
@@ -194,7 +199,7 @@ int main()
 
 		GLfloat EndTime = glfwGetTime();
 
-		//cout << 1 / (EndTime - StartTime) << endl;
+		cout << 1 / (EndTime - StartTime) << endl;
 	}
 
 	glfwTerminate();

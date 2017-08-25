@@ -48,7 +48,8 @@ int main()
 {
 	GLFWwindow * window = kuGLInit("kuOpenGLTest", WndWidth, WndHeight);
 
-	kuModelObject	Model("kuFace_7d5wf_SG.obj");
+	//kuModelObject	Model("kuFace_7d5wf_SG.obj");
+	kuModelObject	Model("MR_brain_c1c2-labels_100k.stl");
 	kuShaderHandler ModelShader;
 	ModelShader.Load("VertexShader.vert", "FragmentShader.frag");
 	ModelShader.Use();
