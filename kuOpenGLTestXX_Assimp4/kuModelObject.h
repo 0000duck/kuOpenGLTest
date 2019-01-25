@@ -32,7 +32,7 @@ private:
 	vector<kuMaterial>	ObjectMaterials;
 	vector<kuTexture>	TextureLoaded;
 
-	void LoadModel(char * filename);
+	void LoadModel(const char * filename);
 	void ProcessNode(aiNode * node, const aiScene * scene);
 	kuMesh processMesh(aiMesh* mesh, const aiScene* scene);
 	vector<kuTexture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,

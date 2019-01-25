@@ -20,9 +20,9 @@ using namespace cv;
 #define WndWidth	1024
 #define WndHeight	768
 
-glm::vec3		CameraPos   = glm::vec3(0.0f, 0.0f, 200.0f);
+glm::vec3		CameraPos = glm::vec3(0.0f, 0.0f, 200.0f);
 glm::vec3		CameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3		CameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
+glm::vec3		CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 GLfloat			yaw = -90.0f;			// Yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right
 GLfloat			pitch = 0.0f;
@@ -91,28 +91,28 @@ int main()
 
 	GLuint		ImgModelMatLoc, ImgViewMatLoc, ImgProjMatLoc, TransCT2ModelLoc;
 
-	glm::mat4	ModelMat	  = glm::mat4(1.0); 
-	glm::mat4	ViewMat		  = glm::mat4(1.0);				 // model and slice uses same matrices
+	glm::mat4	ModelMat = glm::mat4(1.0);
+	glm::mat4	ViewMat = glm::mat4(1.0);				 // model and slice uses same matrices
 	glm::mat4   ProjMat;
 	glm::mat4	TransCT2Model = glm::mat4(1.0);
 
-	ProjMat  = glm::perspective(45.0f, (GLfloat)640 / (GLfloat)480, 0.1f, 1000.0f);
+	ProjMat = glm::perspective(45.0f, (GLfloat)640 / (GLfloat)480, 0.1f, 1000.0f);
 	ModelMat = glm::rotate(ModelMat, (GLfloat)pi * -90.0f / 180.0f,
-						   glm::vec3(1.0f, 0.0f, 0.0f)); // mat, degree, axis. (use radians)
+		glm::vec3(1.0f, 0.0f, 0.0f)); // mat, degree, axis. (use radians)
 
 	TransCT2Model = glm::translate(TransCT2Model, glm::vec3(-128.249, -281.249, -287));
 
 	//ViewMat = glm::translate(ViewMat, glm::vec3(0.0f, 0.0f, -200.0f));		// 這邊放外參(世界座標系統轉到攝影機座標系統 Pc = E * Pw)(應該吧 需要實際測試)
 	//ViewMat = glm::inverse(ViewMat);										// invert過來就是camera要動的量
-	
-	ProjMatLoc   = glGetUniformLocation(ModelShader.ShaderProgramID, "ProjMat");
-	ViewMatLoc   = glGetUniformLocation(ModelShader.ShaderProgramID, "ViewMat");
-	ModelMatLoc  = glGetUniformLocation(ModelShader.ShaderProgramID, "ModelMat");
+
+	ProjMatLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "ProjMat");
+	ViewMatLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "ViewMat");
+	ModelMatLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "ModelMat");
 	CameraPosLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "CameraPos");
 
-	ImgProjMatLoc    = glGetUniformLocation(ImgShader.ShaderProgramID, "ProjMat");
-	ImgViewMatLoc    = glGetUniformLocation(ImgShader.ShaderProgramID, "ViewMat");
-	ImgModelMatLoc   = glGetUniformLocation(ImgShader.ShaderProgramID, "ModelMat");
+	ImgProjMatLoc = glGetUniformLocation(ImgShader.ShaderProgramID, "ProjMat");
+	ImgViewMatLoc = glGetUniformLocation(ImgShader.ShaderProgramID, "ViewMat");
+	ImgModelMatLoc = glGetUniformLocation(ImgShader.ShaderProgramID, "ModelMat");
 	TransCT2ModelLoc = glGetUniformLocation(ImgShader.ShaderProgramID, "TransCT2Model");
 
 	ObjColorLoc = glGetUniformLocation(ModelShader.ShaderProgramID, "ObjColor");
@@ -144,11 +144,11 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glEnable(GL_DEPTH_TEST);
-		
+
 		ViewMat = glm::lookAt(CameraPos, CameraPos + CameraFront, CameraUp);
 
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		ModelShader.Use();
 		glUniformMatrix4fv(ProjMatLoc, 1, GL_FALSE, glm::value_ptr(ProjMat));
